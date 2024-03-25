@@ -1,0 +1,130 @@
+[cuboid]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_plane_range = "tuple"
+    endpoint_equinox_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    dip_degree_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[cylinder]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    a_range = "tuple"
+    b_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    dip_degree_range = "tuple"
+    endpoint_dithering = "tuple"
+
+
+[cone]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    radius_range = "tuple"
+    height_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[hemisphere]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    r_range = "tuple"
+    bottom_y_range = "tuple"
+    th_degree_range = "tuple"
+
+[pyramid]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_num_range = "tuple"
+    point_plane_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[shed]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_x_range = "tuple"
+    th_degree_range = "tuple"
+    r_range = "tuple"
+    bottom_y_range = "tuple"
+    arc_rot_degree_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[platform]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_bottom_plane_range = "tuple"
+    point_top_plane_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[hip]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_bottom_plane_range = "tuple"
+    point_top_x_range = "tuple"
+    point_top_z_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    endpoint_dithering = "tuple"
+
+[freeform]
+    density = "float"
+    equinox_range = "tuple"
+    point_dithering = "tuple"
+    move_plane_range = "tuple"
+    move_y_range = "tuple"
+    plane_rotate_degree_range = "tuple"
+
+    point_num_range = "tuple"
+    dip_degree_range = "tuple"
+    point_plane_range = "tuple"
+    height_range = "tuple"
+    bottom_y_range = "tuple"
+    curve_poss = "float"
+    line_endpoint_dithering = "tuple"
+    curve_endpoint_dithering = "tuple"
+
