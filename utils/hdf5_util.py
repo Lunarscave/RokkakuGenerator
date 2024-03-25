@@ -27,22 +27,23 @@ def validate_directory_path(directory_path: str) -> None:
 
 
 def save_file(file_path: str,
-              data: ndarray,
-              data_name: str,
-              dtype: str) -> None:
+              datas: list,
+              data_names: list[str],
+              dtypes: list[str]) -> None:
     """
     Save hdf5 file
     """
     validate_file_path(file_path)
     h5 = h5py.File(file_path, "w")
-    h5.create_dataset(data_name, data=data, compression='gzip', compression_opts=4, dtype=dtype)
+    for i, _ in enumerate(datas):
+        h5.create_dataset(data_names[i], data=datas[i], compression='gzip', compression_opts=4, dtype=dtypes[i])
     h5.close()
 
 
 def save_files(directory_path: str,
-               datas: list[ndarray],
-               data_names: list[str],
-               dtype: str,
+               datas: list[list],
+               data_names: list[list[str]],
+               dtypes: list[list[str]],
                file_names: list[str] = None) -> None:
     """
     Save hdf5 files
@@ -51,9 +52,9 @@ def save_files(directory_path: str,
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
 
-    for i, data_name in enumerate(data_names):
+    for i, _ in enumerate(data_names):
         file_path = f"{directory_path}\\{i + 1 if file_names is None else file_names[i]}.hdf5"
-        save_file(file_path, datas[i], data_name, dtype)
+        save_file(file_path, datas[i], data_names[i], dtypes[i])
 
 
 

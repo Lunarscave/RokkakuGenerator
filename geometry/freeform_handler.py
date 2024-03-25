@@ -2,10 +2,9 @@ import math
 import random
 
 import numpy as np
-from numpy import ndarray
 
 from geometry import BaseGeometryHandler
-from meta import Strokes
+from meta import FreeformStrokes
 from utils import point_util
 
 
@@ -39,7 +38,7 @@ class FreeformHandler(BaseGeometryHandler):
     def name(self) -> str:
         return "freeform"
 
-    def generate_strokes(self) -> ndarray:
+    def generate_strokes(self) -> FreeformStrokes:
         # generate
         endpoint_nums = random.randint(*self.point_num_range)
         height = random.uniform(*self.height_range)
@@ -85,7 +84,8 @@ class FreeformHandler(BaseGeometryHandler):
             print()
             vert_points = [
                 point_util.get_vertical_line3d_by_curve(points=top_points[top_endpoints_index[i]:
-                                                                          top_endpoints_index[i + 1] if i + 1 < endpoint_nums else -1],
+                                                                          top_endpoints_index[i + 1]
+                                                                          if i + 1 < endpoint_nums else -1],
                                                         bottom_y_range=self.bottom_y_range,
                                                         degree_range=self.dip_degree_range,
                                                         density=self.density,
@@ -95,9 +95,9 @@ class FreeformHandler(BaseGeometryHandler):
                 for i in range(0, vertical_nums)]
 
         # transform
-        return Strokes.load_points(top_points, *tuple(vert_points))
-        # return (Strokes.load_points(ellipse, line)
-        #         .rotate_points3d(degree_range=self.plane_rotate_degree_range)
-        #         .move_points3d(dx_range=self.move_plane_range,
-        #                        dz_range=self.move_plane_range,
-        #                        dy_range=self.move_y_range))
+        return (FreeformStrokes.load_points(top_points, *tuple(vert_points))
+                .load_plane_strokes_types(top_points_types)
+                .rotate_points3d(degree_range=self.plane_rotate_degree_range)
+                .move_points3d(dx_range=self.move_plane_range,
+                               dz_range=self.move_plane_range,
+                               dy_range=self.move_y_range))

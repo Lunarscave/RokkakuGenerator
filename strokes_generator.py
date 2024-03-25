@@ -10,7 +10,7 @@ from numpy import ndarray
 
 from geometry import BaseGeometryHandler, ConeHandler, CuboidHandler, CylinderHandler, HemisphereHandler, \
     PyramidHandler, ShedHandler, PlatformHandler, HipHandler, FreeformHandler
-from meta import Strokes
+from meta import Strokes, FreeformStrokes
 from utils import assert_util, hdf5_util
 
 
@@ -78,7 +78,14 @@ class StrokesGenerator:
         self.__LOGGER__.info(f"generated geometry: {geometry_name}.")
 
         if output_path is not None:
-            hdf5_util.save_file(output_path, strokes.get_value(), "value", "float")
+            datas = [strokes.get_value()]
+            data_names = ["value"]
+            dtypes = ["float"]
+            if isinstance(strokes, FreeformStrokes):
+                datas.append(strokes.get_types())
+                data_names.append("types")
+                dtypes.append("int")
+            hdf5_util.save_file(output_path, datas, data_names, dtypes)
 
         return strokes
 
@@ -104,10 +111,14 @@ class StrokesGenerator:
             if not os.path.exists(output_path):
                 os.makedirs(output_path)
             for name in names:
+                datas = [[strokes.get_value(), strokes.get_types()] if isinstance(strokes, FreeformStrokes)
+                         else [strokes.get_value()] for strokes in strokes_map[name]]
+                data_names = [["value", "types"] if isinstance(strokes, FreeformStrokes)
+                         else ["value"] for strokes in strokes_map[name]]
+                dtypes = [["float", "int"] if isinstance(strokes, FreeformStrokes)
+                         else ["float"] for strokes in strokes_map[name]]
                 hdf5_util.save_files(directory_path=f"{output_path}\\{name}",
-                                     datas=[strokes.get_value() for strokes in strokes_map[name]],
-                                     data_names=["value" for _ in strokes_map[name]],
-                                     dtype="float")
+                                     datas=datas, data_names=data_names, dtypes=dtypes)
 
         return strokes_map
 

@@ -28,10 +28,16 @@ class Strokes:
 
     @classmethod
     def __validate_strokes__(cls, value):
+        """
+        Validate strokes value.
+        """
         assert_util.is_true(value.ndim == 2 and value.shape[1] == 4, "Strokes value invalid.")
 
     @classmethod
     def __validate_points__(cls, points):
+        """
+        Validate points value.
+        """
         assert_util.is_true(points.ndim == 2 and points.shape[1] == 3, "Points value invalid.")
 
     def set_value(self, value: ndarray):
