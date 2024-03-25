@@ -114,9 +114,9 @@ class StrokesGenerator:
                 datas = [[strokes.get_value(), strokes.get_types()] if isinstance(strokes, FreeformStrokes)
                          else [strokes.get_value()] for strokes in strokes_map[name]]
                 data_names = [["value", "types"] if isinstance(strokes, FreeformStrokes)
-                         else ["value"] for strokes in strokes_map[name]]
+                              else ["value"] for strokes in strokes_map[name]]
                 dtypes = [["float", "int"] if isinstance(strokes, FreeformStrokes)
-                         else ["float"] for strokes in strokes_map[name]]
+                          else ["float"] for strokes in strokes_map[name]]
                 hdf5_util.save_files(directory_path=f"{output_path}\\{name}",
                                      datas=datas, data_names=data_names, dtypes=dtypes)
 
