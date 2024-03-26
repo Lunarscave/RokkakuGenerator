@@ -81,7 +81,6 @@ class FreeformHandler(BaseGeometryHandler):
                                                                       endpoint_dithering=self.line_endpoint_dithering,
                                                                       point_dithering=self.point_dithering)]
         else:
-            print()
             vert_points = [
                 point_util.get_vertical_line3d_by_curve(points=top_points[top_endpoints_index[i]:
                                                                           top_endpoints_index[i + 1]

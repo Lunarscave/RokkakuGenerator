@@ -9,10 +9,18 @@ class FreeformStrokes(Strokes):
         super().__init__()
         self.types = None
 
+    @classmethod
+    def load_points(cls, *points: ndarray):
+        """
+        Load strokes value
+        """
+        strokes = FreeformStrokes()
+        strokes.set_value(cls.mark_points3d(points[0], 0))
+        strokes.append_points(*points[1:])
+        return strokes
+
     def load_plane_strokes_types(self, types: ndarray):
         assert_util.is_not_none(self.value, "Freeform strokes could not be blank.")
-        assert_util.is_true(len(self.value) == len(types),
-                            "Freeform strokes types length and strokes length are not equal.")
         self.types = types
         return self
 

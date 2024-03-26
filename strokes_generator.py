@@ -25,10 +25,10 @@ class StrokesGenerator:
         Init the strokes generator with configuration
         """
         self.__geometry_map__ = {}
+        logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(asctime)s - %(filename)s - %(message)s")
         self.__LOGGER__ = logging.getLogger()
         self.__generator_config__ = {}
 
-        self.__LOGGER__.setLevel(logging.INFO)
         assert_util.is_not_none(re.match(r".*\.toml", config_file_path),
                                 "extension of config file name '{0}' is not 'toml'.", config_file_path)
         self.__generator_config__ = toml.load(config_file_path)
@@ -52,7 +52,6 @@ class StrokesGenerator:
 
     def __load_geometries__(self) -> None:
         """
-        NOT IMPLEMENT !
         Load geometries with configuration
         """
         self.load_geometry(ConeHandler())
@@ -75,7 +74,6 @@ class StrokesGenerator:
         geometry.validate()
         geometry.load_config()
         strokes = geometry.generate_strokes()
-        self.__LOGGER__.info(f"generated geometry: {geometry_name}.")
 
         if output_path is not None:
             datas = [strokes.get_value()]
@@ -86,6 +84,8 @@ class StrokesGenerator:
                 data_names.append("types")
                 dtypes.append("int")
             hdf5_util.save_file(output_path, datas, data_names, dtypes)
+
+        self.__LOGGER__.info(f"generated geometry: {geometry_name}.")
 
         return strokes
 
@@ -100,7 +100,8 @@ class StrokesGenerator:
         for name in names:
             strokes_map[name] = []
 
-        for _ in range(0, nums):
+        for i in range(0, nums):
+            self.__LOGGER__.info(f"start to generate all strokes (turns: {i + 1})")
             for name in names:
                 strokes_arr = strokes_map[name]
                 strokes_arr.append(self.get_geometry_strokes(name))
@@ -119,6 +120,8 @@ class StrokesGenerator:
                           else ["float"] for strokes in strokes_map[name]]
                 hdf5_util.save_files(directory_path=f"{output_path}\\{name}",
                                      datas=datas, data_names=data_names, dtypes=dtypes)
+
+                self.__LOGGER__.info(f"generated geometry saved: {name}.")
 
         return strokes_map
 
@@ -139,9 +142,10 @@ class StrokesGenerator:
 
 
 if __name__ == "__main__":
+    # main demo
     strokes_generator = StrokesGenerator()
     points = strokes_generator.get_geometry_strokes("freeform").get_value()
-    print(points)
+    # print(points)
     fig = plt.figure()
     ax = Axes3D(fig)
 
@@ -156,3 +160,4 @@ if __name__ == "__main__":
 
     fig.add_axes(ax)
     plt.show()
+
