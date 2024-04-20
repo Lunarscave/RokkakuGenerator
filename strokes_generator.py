@@ -1,12 +1,11 @@
 import logging
 import os.path
 import re
+from typing import Dict, Any
 
-import numpy as np
 import toml
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from numpy import ndarray
 
 from geometry import BaseGeometryHandler, ConeHandler, CuboidHandler, CylinderHandler, HemisphereHandler, \
     PyramidHandler, ShedHandler, PlatformHandler, HipHandler, FreeformHandler
@@ -16,31 +15,36 @@ from utils import assert_util, hdf5_util
 
 class StrokesGenerator:
     """
-    Generate strokes
+    Generate strokes. Load config (through rules validation) and register generate handler.
     """
 
-    def __init__(self,
-                 config_file_path: str = "config.toml") -> None:
+    def __init__(
+            self,
+            config_file_path: str = "config.toml"
+    ) -> None:
         """
-        Init the strokes generator with configuration
+        Init the strokes generator with configuration.
+        :param config_file_path: Config file path.
         """
-        self.__geometry_map__ = {}
+        self.__geometry_map__: Dict[str, BaseGeometryHandler] = {}
         logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(asctime)s - %(filename)s - %(message)s")
-        self.__LOGGER__ = logging.getLogger()
-        self.__generator_config__ = {}
+        self.__LOGGER__: logging.Logger = logging.getLogger()
+        self.__generator_config__: Dict[str, Any] = {}
 
         assert_util.is_not_none(re.match(r".*\.toml", config_file_path),
                                 "extension of config file name '{0}' is not 'toml'.", config_file_path)
         self.__generator_config__ = toml.load(config_file_path)
         self.__load_geometries__()
 
-    def load_geometry(self,
-                      geometry: BaseGeometryHandler) -> None:
+    def load_geometry(
+            self,
+            geometry: BaseGeometryHandler
+    ) -> None:
         """
-        Load geometry with configuration
+        Load geometry with configuration.
+        :param geometry: Geometry handler (from geometry).
         """
-        geometry_name = geometry.name()
-        assert_util.is_true(geometry_name is not None and len(geometry_name) > 0, "geometry name should not be blank.")
+        geometry_name = geometry.prototype().get_name()
         assert_util.is_false(geometry_name in self.__geometry_map__, "geometry {0} duplicated.", geometry_name)
         assert_util.is_true(geometry_name in self.__generator_config__.keys(),
                             "can not find geometry config of '{0}'", geometry_name)
@@ -52,7 +56,7 @@ class StrokesGenerator:
 
     def __load_geometries__(self) -> None:
         """
-        Load geometries with configuration
+        Load geometries with configuration.
         """
         self.load_geometry(ConeHandler())
         self.load_geometry(CuboidHandler())
@@ -64,11 +68,16 @@ class StrokesGenerator:
         self.load_geometry(HipHandler())
         self.load_geometry(FreeformHandler())
 
-    def get_geometry_strokes(self,
-                             geometry_name: str,
-                             output_path: str = None) -> Strokes:
+    def get_geometry_strokes(
+            self,
+            geometry_name: str,
+            output_path: str = None
+    ) -> Strokes:
         """
-        Get geometry strokes and save strokes
+        Get geometry strokes and save strokes.
+        :param geometry_name: Geometry handler builtin name.
+        :param output_path: Output file path.
+        :return: Generated strokes.
         """
         geometry = self.get_geometry(geometry_name)
         geometry.validate()
@@ -89,11 +98,16 @@ class StrokesGenerator:
 
         return strokes
 
-    def get_all_geometries_strokes(self,
-                                   output_path: str = None,
-                                   nums: int = 1) -> dict[str, list[Strokes]]:
+    def get_all_geometries_strokes(
+            self,
+            output_path: str = None,
+            nums: int = 1
+    ) -> dict[str, list[Strokes]]:
         """
-        Get all geometries strokes and save all strokes
+        Get all geometries strokes and save all strokes.
+        :param output_path: Output file path.
+        :param nums: Stroke nums of each geometry.
+        :return: A dict of all geometries strokes.
         """
         names = self.list_geometries_name()
         strokes_map = {}
@@ -125,10 +139,14 @@ class StrokesGenerator:
 
         return strokes_map
 
-    def get_geometry(self,
-                     geometry_name: str) -> BaseGeometryHandler:
+    def get_geometry(
+            self,
+            geometry_name: str
+    ) -> BaseGeometryHandler:
         """
-        Get geometry from the geometry map
+        Get geometry from the geometry map.
+        :param geometry_name: Geometry name.
+        :return: Geometry handler.
         """
         geometry = self.__geometry_map__.get(geometry_name)
         assert_util.is_not_none(geometry, f"geometry '{geometry_name}' is not found.")
@@ -136,7 +154,8 @@ class StrokesGenerator:
 
     def list_geometries_name(self) -> list[str]:
         """
-        List all geometries name
+        List all geometries name.
+        :return: Geometry handler list.
         """
         return list(self.__geometry_map__.keys())
 
@@ -144,8 +163,8 @@ class StrokesGenerator:
 if __name__ == "__main__":
     # main demo
     strokes_generator = StrokesGenerator()
-    points = strokes_generator.get_geometry_strokes("freeform").get_value()
-    # print(points)
+    points = strokes_generator.get_geometry_strokes("platform").get_value()
+
     fig = plt.figure()
     ax = Axes3D(fig)
 
@@ -153,10 +172,6 @@ if __name__ == "__main__":
     ax.set_xlabel('X label')
     ax.set_ylabel('Y label')
     ax.set_zlabel('Z label')
-
-    # ax.set_xlim(0, 100)
-    # ax.set_ylim(0, 100)
-    ax.set_zlim(0, 50)
 
     fig.add_axes(ax)
     plt.show()
