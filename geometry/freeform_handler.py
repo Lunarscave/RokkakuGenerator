@@ -87,10 +87,6 @@ class FreeformHandler(BaseGeometryHandler):
 
         top_points = np.array(top_points)
 
-        # test
-        plt.plot(top_points[:, 0], top_points[:, 1])
-        plt.show()
-
         top_endpoints_index = []
         for i, v in enumerate(top_points_types):
             if v == 0:
