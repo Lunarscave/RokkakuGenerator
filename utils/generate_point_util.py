@@ -283,9 +283,9 @@ def get_curve3d(
                                              dithering=endpoint_dithering) for _ in range(0, 3)])
     control_points = sort_points3d(points=control_points,
                                    axis_arr=axis_arr,
-                                   reverse_arr=tuple((endpoints[0] - endpoints[1]) > 0))
-    control_points = np.insert(control_points, 0, endpoints[0], axis=0)
-    control_points = np.insert(control_points, len(control_points), endpoints[1], axis=0)
+                                   reverse_arr=tuple((endpoints[0] - endpoints[1]) < 0))
+    control_points = np.insert(control_points, len(control_points), endpoints[0], axis=0)
+    control_points = np.insert(control_points, 0, endpoints[1], axis=0)
     t_arr = np.linspace(0.0, 1.0, int(get_point_distance_3d(endpoints) / density))
     return get_bezier_curve3d(control_points, t_arr, point_dithering, uniform_velocity)
 
@@ -613,8 +613,8 @@ def get_vertical_arc(
 
 def sort_points3d(
         points: ndarray[ndarray] | ndarray,
-        axis_arr: Tuple[float, float, float] = (0, 1, 2),
-        reverse_arr: Tuple[bool, bool, bool] | Tuple = np.array([False, False, False])
+        axis_arr: Tuple[int, int, int] = (0, 1, 2),
+        reverse_arr: Tuple[bool, bool, bool] | Tuple = (False, False, False)
 ) -> ndarray:
     """
     Sort points along axis(and choose reverse).
@@ -626,7 +626,7 @@ def sort_points3d(
     point_list = list(points)
     require_length = len(axis_arr)
     point_list.sort(
-        key=lambda p: tuple([-p[axis_arr[i]] if reverse_arr[i] else p[axis_arr[i]] for i in range(0, require_length)])
+        key=lambda p: tuple([-p[axis_arr[i]] if reverse_arr[i] else p[axis_arr[i]] for i in range(require_length)])
     )
     return np.array(point_list)
 

@@ -163,16 +163,16 @@ class StrokesGenerator:
 if __name__ == "__main__":
     # main demo
     strokes_generator = StrokesGenerator()
-    points = strokes_generator.get_geometry_strokes("platform").get_value()
+    points = strokes_generator.get_geometry_strokes("freeform").get_value()
 
-    fig = plt.figure()
-    ax = Axes3D(fig)
-
-    ax.scatter(points[:, 0], points[:, 1], points[:, 2], s=1)
-    ax.set_xlabel('X label')
-    ax.set_ylabel('Y label')
-    ax.set_zlabel('Z label')
-
-    fig.add_axes(ax)
-    plt.show()
+    # fig = plt.figure()
+    # ax = Axes3D(fig)
+    #
+    # ax.scatter(points[:, 0], points[:, 1], points[:, 2], s=1)
+    # ax.set_xlabel('X label')
+    # ax.set_ylabel('Y label')
+    # ax.set_zlabel('Z label')
+    #
+    # fig.add_axes(ax)
+    # plt.show()
 

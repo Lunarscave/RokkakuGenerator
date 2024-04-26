@@ -2,6 +2,7 @@ import math
 import random
 from typing import Tuple
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from geometry import BaseGeometryHandler
@@ -80,10 +81,15 @@ class FreeformHandler(BaseGeometryHandler):
                 endpoint_dithering=endpoint_ditherings[line_type],
                 point_dithering=self.point_dithering
             )
-            top_points.extend(list(points))
+            point_list = list(points)
+            top_points.extend(point_list)
             top_points_types.extend([(line_type + 1) if j != 0 else 0 for j, _ in enumerate(points)])
 
         top_points = np.array(top_points)
+
+        # test
+        plt.plot(top_points[:, 0], top_points[:, 1])
+        plt.show()
 
         top_endpoints_index = []
         for i, v in enumerate(top_points_types):

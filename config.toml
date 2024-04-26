@@ -111,7 +111,7 @@ bottom_y_range = [0, 5]
 endpoint_dithering = [0, 5]
 
 [freeform]
-density = 0.2
+density = 0.5
 equinox_range = [0.3, 0.7]
 point_dithering = [0.0, 0.0]
 plane_rotate_degree_range = [0, 360]
@@ -122,7 +122,7 @@ point_num_range = [3, 10]
 dip_degree_range = [-10, 30]
 point_plane_range = [-100, 100]
 height_range = [30, 50]
-bottom_y_range = [5, 5]
-curve_poss = 0.5
-line_endpoint_dithering = [0, 0]
-curve_endpoint_dithering = [5, 10]
+bottom_y_range = [5, 10]
+curve_poss = 1
+line_endpoint_dithering = [0, 2]
+curve_endpoint_dithering = [20, 30]
